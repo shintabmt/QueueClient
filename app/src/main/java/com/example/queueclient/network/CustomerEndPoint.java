@@ -11,6 +11,6 @@ import retrofit2.http.POST;
  * Created by shintabmt on 6/30/2016.
  */
 public interface CustomerEndPoint {
-    @POST("customer/subcribe")
-    List<QueueInfo> subcrible(@Field("name") String name, @Field("uid") String uid, @Field("type") String type);
+    @POST("customer/subscribe")
+    List<QueueInfo> subscribe(@Field("name") String name, @Field("uid") String uid, @Field("type") String type);
 }
