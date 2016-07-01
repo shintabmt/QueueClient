@@ -46,15 +46,15 @@
             android:id="@+id/pingButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:text="Ping"></android.support.v7.widget.AppCompatButton>
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/addButton"
+            android:id="@+id/subscribeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add"></android.support.v7.widget.AppCompatButton>
+            android:text="Subscribe Server"></android.support.v7.widget.AppCompatButton>
     </android.support.v7.widget.ButtonBarLayout>
 
 

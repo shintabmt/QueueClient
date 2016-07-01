@@ -36,13 +36,14 @@ public class MainActivity extends ButterKnifeActivity implements ServerAdapter.O
     Button mPingBtn;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @BindView(R.id.addButton)
-    Button mAddButton;
+    @BindView(R.id.subscribeButton)
+    Button mSubscribeButton;
     @BindView(R.id.contentPanel)
     View mContainer;
 
     private ServerAdapter mAdapter;
     private List<Server> mServerList;
+    private Server mCurrentServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class MainActivity extends ButterKnifeActivity implements ServerAdapter.O
     public void onSettingClick(Server server) {
         mHostText.setText(server.getIpAddress());
         mNameText.setText(server.getName());
+        mCurrentServer = server;
     }
 
     @OnClick(R.id.pingButton)
@@ -85,7 +87,7 @@ public class MainActivity extends ButterKnifeActivity implements ServerAdapter.O
 //        Log.d(TAG, "isOnline: " + isOnline());
     }
 
-    @OnClick(R.id.addButton)
+    @OnClick(R.id.subscribeButton)
     void onAddCLick() {
         if (validateAdd()) {
             addServerToDb();
@@ -148,49 +150,6 @@ public class MainActivity extends ButterKnifeActivity implements ServerAdapter.O
             e.printStackTrace();
             Log.d(TAG, " Exception:" + e);
         }
-        return false;
-    }
-
-    public static String executeCmd(String cmd, boolean sudo) {
-        try {
-
-            Process p;
-            if (!sudo)
-                p = Runtime.getRuntime().exec(cmd);
-            else {
-                p = Runtime.getRuntime().exec(new String[]{"su", "-c", cmd});
-            }
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-            String s;
-            String res = "";
-            while ((s = stdInput.readLine()) != null) {
-                res += s + "\n";
-            }
-            p.destroy();
-            return res;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-
-    }
-
-    public boolean isOnline() {
-
-        Runtime runtime = Runtime.getRuntime();
-        try {
-
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         return false;
     }
 }

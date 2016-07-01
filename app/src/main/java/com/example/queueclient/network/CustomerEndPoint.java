@@ -4,6 +4,7 @@ import com.example.queueclient.models.QueueInfo;
 
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.POST;
 
@@ -12,5 +13,5 @@ import retrofit2.http.POST;
  */
 public interface CustomerEndPoint {
     @POST("customer/subscribe")
-    List<QueueInfo> subscribe(@Field("name") String name, @Field("uid") String uid, @Field("type") String type);
+    Call<QueueInfo> subscribe(@Field("name") String name, @Field("uid") String uid, @Field("type") String type);
 }
