@@ -1,5 +1,7 @@
 package com.example.queueclient.network;
 
+import com.example.queueclient.interfaces.DeviceStatusListener;
+import com.example.queueclient.models.ConnectionStatus;
 import com.example.queueclient.models.QueueInfo;
 import com.example.queueclient.persistences.Server;
 
@@ -13,19 +15,40 @@ import retrofit2.Response;
  * Created by shintabmt on 7/1/2016.
  */
 public class CustomerManager extends BaseRetrofitManager<CustomerEndPoint> {
-    public CustomerManager(String endPoint) {
+    DeviceStatusListener mDeviceStatusListener;
+
+    public CustomerManager(String endPoint, DeviceStatusListener deviceStatusListener) {
         super(CustomerEndPoint.class, endPoint);
+        this.mDeviceStatusListener = deviceStatusListener;
     }
 
-    public void subcrible(String name, String uid, String type) {
-        getService().subscribe(name, uid, type).enqueue(new Callback<QueueInfo>() {
+    public void subscribe(String uid) {
+        getService().subscribe(uid).enqueue(new Callback<ConnectionStatus>() {
             @Override
-            public void onResponse(Call<QueueInfo> call, Response<QueueInfo> response) {
-                QueueInfo queueInfo =response.body();
+            public void onResponse(Call<ConnectionStatus> call, Response<ConnectionStatus> response) {
+                ConnectionStatus status = response.body();
+                if (status.getStatus().equalsIgnoreCase("ok")){
+                    mDeviceStatusListener.onDeviceConnected();
+                } else {
+                    mDeviceStatusListener.onDeviceDisconnected(status.getError());
+                }
             }
 
             @Override
-            public void onFailure(Call<QueueInfo> call, Throwable t) {
+            public void onFailure(Call<ConnectionStatus> call, Throwable t) {
+                mDeviceStatusListener.onDeviceDisconnected(t.getMessage());
+            }
+        });
+    }
+
+    public void registerQueue(String customerName, String uid, int type) {
+        getService().registerQueue(customerName, uid, type).enqueue(new Callback<List<QueueInfo>>() {
+            @Override
+            public void onResponse(Call<List<QueueInfo>> call, Response<List<QueueInfo>> response) {
+            }
+
+            @Override
+            public void onFailure(Call<List<QueueInfo>> call, Throwable t) {
 
             }
         });

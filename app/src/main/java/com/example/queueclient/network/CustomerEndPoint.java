@@ -1,5 +1,6 @@
 package com.example.queueclient.network;
 
+import com.example.queueclient.models.ConnectionStatus;
 import com.example.queueclient.models.QueueInfo;
 
 import java.util.List;
@@ -13,5 +14,8 @@ import retrofit2.http.POST;
  */
 public interface CustomerEndPoint {
     @POST("customer/subscribe")
-    Call<QueueInfo> subscribe(@Field("name") String name, @Field("uid") String uid, @Field("type") String type);
+    Call<ConnectionStatus> subscribe(@Field("uid") String uid);
+
+    @POST("customer/queue")
+    Call<List<QueueInfo>> registerQueue(@Field("name") String name, @Field("uid") String uid, @Field("type") int type);
 }

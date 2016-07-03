@@ -1,5 +1,6 @@
 package com.example.queueclient;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.queueclient.base.ButterKnifeActivity;
+import com.example.queueclient.interfaces.DeviceStatusListener;
+import com.example.queueclient.models.Customer;
+import com.example.queueclient.network.CustomerManager;
 import com.example.queueclient.persistences.Server;
 import com.example.queueclient.persistences.ServersRepository;
 import com.example.queueclient.views.adapters.ServerAdapter;
@@ -82,15 +86,13 @@ public class MainActivity extends ButterKnifeActivity implements ServerAdapter.O
         } else {
             Snackbar.make(mContainer, "Ping Fail", Snackbar.LENGTH_SHORT).show();
         }
-//        String log = executeCmd("ping -c 10 -w 10 google.com", false);
-//        Log.d(TAG, "log: " + log);
-//        Log.d(TAG, "isOnline: " + isOnline());
     }
 
     @OnClick(R.id.subscribeButton)
-    void onAddCLick() {
+    void onSubscribeCLick() {
         if (validateAdd()) {
             addServerToDb();
+            moveToSubscribeActivity(createServerInstance());
             if (mServerList == null) {
                 mServerList = new ArrayList<>();
             }
@@ -98,6 +100,14 @@ public class MainActivity extends ButterKnifeActivity implements ServerAdapter.O
             mAdapter.setItems(mServerList);
         }
     }
+
+    private void moveToSubscribeActivity(Server server){
+        Intent intent = new Intent(this, SubscribeActivity.class);
+        intent.putExtra("server", server);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
 
     private boolean validatePing() {
         if (TextUtils.isEmpty(mHostText.getText().toString())) {

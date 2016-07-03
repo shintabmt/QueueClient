@@ -2,6 +2,8 @@ package com.example.queueclient.persistences;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class Server {
+public class Server implements Serializable {
     @DatabaseField(generatedId = true)
     private long id;
     @DatabaseField

@@ -11,4 +11,8 @@ import lombok.Data;
 public class QueueInfo {
     @SerializedName("position")
     private String queuePosition;
+    @SerializedName("name")
+    private String queueName;
+    @SerializedName("type")
+    private QueueType queueType;
 }

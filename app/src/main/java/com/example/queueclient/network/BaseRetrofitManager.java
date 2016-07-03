@@ -20,7 +20,7 @@ public abstract class BaseRetrofitManager<T> {
         service = sRetrofit.create(endpointClazz);
     }
 
-    public void changeEnpoint(String endPoint) {
+    public void changeEndpoint(String endPoint) {
         sRetrofit = new Retrofit.Builder().baseUrl(endPoint).addConverterFactory(GsonConverterFactory.create()).build();
     }
 
