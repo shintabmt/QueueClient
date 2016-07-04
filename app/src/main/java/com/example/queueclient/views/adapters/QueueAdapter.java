@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.queueclient.R;
+import com.example.queueclient.models.Customer;
 import com.example.queueclient.models.QueueInfo;
 
 import java.util.ArrayList;
@@ -48,9 +49,10 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         QueueInfo item = queueInfoList.get(position);
-        holder.name.setText(item.getQueueName());
+        Customer customer = item.getCustomer();
+        holder.name.setText(customer.getName());
         holder.ip.setText(item.getQueuePosition());
-        holder.name.setText(item.getQueueType() + "");
+        holder.type.setText(customer.getQueueType() + "");
     }
 
     @Override

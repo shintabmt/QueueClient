@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.queueclient.base.ButterKnifeActivity;
 import com.example.queueclient.interfaces.DeviceStatusListener;
+import com.example.queueclient.models.Customer;
 import com.example.queueclient.models.QueueType;
 import com.example.queueclient.network.CustomerManager;
 import com.example.queueclient.persistences.Server;
@@ -44,6 +45,7 @@ public class SubscribeActivity extends ButterKnifeActivity implements DeviceStat
         mAdapter = new QueueAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
+        subscribe();
     }
 
     private void subscribe() {
@@ -52,12 +54,13 @@ public class SubscribeActivity extends ButterKnifeActivity implements DeviceStat
 
     @Override
     public void onDeviceConnected() {
+        showToast("connected to system");
         showDialog();
     }
 
     @Override
     public void onDeviceDisconnected(String error) {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        showToast(error);
     }
 
     @Override
@@ -72,9 +75,16 @@ public class SubscribeActivity extends ButterKnifeActivity implements DeviceStat
                 registerQueue(i);
             }
         }).create();
+        alertDialog.show();
     }
 
     private void registerQueue(int type) {
-        mCustomerManager.registerQueue(DeviceUtils.getDeviceName(), DeviceUtils.getAndroidDeviceUid(this), type);
+        Customer customer = new Customer(DeviceUtils.getDeviceName(), DeviceUtils.getAndroidDeviceUid(this), QueueType.STANDARD);
+        mCustomerManager.registerQueue(customer);
+    }
+
+    private void showToast(String string) {
+        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+
     }
 }

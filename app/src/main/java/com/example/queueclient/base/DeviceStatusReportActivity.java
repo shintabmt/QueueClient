@@ -11,15 +11,13 @@ import com.example.queueclient.persistences.Server;
  * Created by shintabmt@gmai.com on 7/4/2016.
  */
 public class DeviceStatusReportActivity extends ButterKnifeActivity implements DeviceStatusListener {
-    protected CustomerManager  customerManager;
-
     @Override
-    public void onDeviceConnected(Server server) {
+    public void onDeviceConnected() {
 
     }
 
     @Override
-    public void onDeviceDisconnected(Server server) {
+    public void onDeviceDisconnected(String error) {
 
     }
 

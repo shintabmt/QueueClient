@@ -2,7 +2,9 @@ package com.example.queueclient.network;
 
 import com.example.queueclient.interfaces.DeviceStatusListener;
 import com.example.queueclient.models.ConnectionStatus;
+import com.example.queueclient.models.Customer;
 import com.example.queueclient.models.QueueInfo;
+import com.example.queueclient.models.QueueType;
 import com.example.queueclient.persistences.Server;
 
 import java.util.List;
@@ -41,8 +43,8 @@ public class CustomerManager extends BaseRetrofitManager<CustomerEndPoint> {
         });
     }
 
-    public void registerQueue(String customerName, String uid, int type) {
-        getService().registerQueue(customerName, uid, type).enqueue(new Callback<List<QueueInfo>>() {
+    public void registerQueue(Customer customer) {
+        getService().registerQueue(customer).enqueue(new Callback<List<QueueInfo>>() {
             @Override
             public void onResponse(Call<List<QueueInfo>> call, Response<List<QueueInfo>> response) {
             }
