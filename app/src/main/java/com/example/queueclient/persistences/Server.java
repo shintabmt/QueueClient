@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 public class Server implements Serializable {
     @DatabaseField(generatedId = true)
     private long id;
-    @DatabaseField
+    @DatabaseField (uniqueCombo = true)
     private String name;
-    @DatabaseField
+    @DatabaseField(uniqueCombo = true)
     private String ipAddress;
 
     public Server(String name, String ipAddress) {

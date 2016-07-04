@@ -92,11 +92,9 @@ public class MainActivity extends ButterKnifeActivity implements ServerAdapter.O
     void onSubscribeCLick() {
         if (validateAdd()) {
             addServerToDb();
-            moveToSubscribeActivity(createServerInstance());
-            if (mServerList == null) {
-                mServerList = new ArrayList<>();
-            }
-            mServerList.add(createServerInstance());
+            Server server = createServerInstance();
+            moveToSubscribeActivity(server);
+            mServerList = loadServerList();
             mAdapter.setItems(mServerList);
         }
     }

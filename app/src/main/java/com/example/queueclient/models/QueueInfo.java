@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class QueueInfo {
-    @SerializedName("position")
-    private String queuePosition;
+    @SerializedName("queuePosition")
+    private int queuePosition;
     @SerializedName("customer")
     private Customer customer;
 }

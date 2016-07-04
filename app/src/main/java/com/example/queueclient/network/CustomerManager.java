@@ -1,9 +1,12 @@
 package com.example.queueclient.network;
 
+import android.widget.Toast;
+
 import com.example.queueclient.interfaces.DeviceStatusListener;
 import com.example.queueclient.models.ConnectionStatus;
 import com.example.queueclient.models.Customer;
 import com.example.queueclient.models.QueueInfo;
+import com.example.queueclient.models.QueueStatus;
 import com.example.queueclient.models.QueueType;
 import com.example.queueclient.persistences.Server;
 
@@ -44,14 +47,20 @@ public class CustomerManager extends BaseRetrofitManager<CustomerEndPoint> {
     }
 
     public void registerQueue(Customer customer) {
-        getService().registerQueue(customer).enqueue(new Callback<List<QueueInfo>>() {
+        getService().registerQueue(customer).enqueue(new Callback<QueueStatus>() {
             @Override
-            public void onResponse(Call<List<QueueInfo>> call, Response<List<QueueInfo>> response) {
+            public void onResponse(Call<QueueStatus> call, Response<QueueStatus> response) {
+                QueueStatus queueStatus = response.body();
+                if (queueStatus.getStatus().equalsIgnoreCase("ok")){
+                    mDeviceStatusListener.onQueueSuccessfully(queueStatus);
+                } else{
+                    mDeviceStatusListener.onQueueFailure(queueStatus.getError());
+                }
             }
 
             @Override
-            public void onFailure(Call<List<QueueInfo>> call, Throwable t) {
-
+            public void onFailure(Call<QueueStatus> call, Throwable t) {
+                mDeviceStatusListener.onDeviceDisconnected(t.getMessage());
             }
         });
     }
